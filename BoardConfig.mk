@@ -1,5 +1,7 @@
-#
 # Copyright (C) 2017 The Android Open Source Project
+# Copyright (C) 2018 PitchBlack Recovery Project
+#
+# Copyright (C) 2018-2020 OrangeFox Recovery Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,8 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-#Copyright (C) 2018 OrangeFox Recovery Project
-#Copyright (C) 2018 PitchBlack Recovery Project
 
 LOCAL_PATH := device/xiaomi/mido
 
@@ -61,7 +61,7 @@ BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 TARGET_KERNEL_CONFIG := mido_defconfig
 TARGET_KERNEL_SOURCE := kernel/xiaomi/mido
 else
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/Image.gz-dtb
+TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilt/Image.gz-dtb
 PRODUCT_COPY_FILES += \
     $(TARGET_PREBUILT_KERNEL):kernel
 endif
@@ -89,7 +89,7 @@ TW_THEME := portrait_hdpi
 TW_INCLUDE_FUSE_EXFAT := true
 TW_INCLUDE_NTFS_3G := true
 TW_MAX_BRIGHTNESS := 255
-#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
+TW_DEFAULT_BRIGHTNESS := 100
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/soc/7000000.ssusb/7000000.dwc3/gadget/lun0/file"
 TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
 TW_EXCLUDE_SUPERSU := true
@@ -98,11 +98,11 @@ TARGET_RECOVERY_QCOM_RTC_FIX := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
 BOARD_SUPPRESS_SECURE_ERASE := true
-#RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TW_IGNORE_MISC_WIPE_DATA := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TWRP_INCLUDE_LOGCAT := true
 TW_EXTRA_LANGUAGES := true
+TW_DEFAULT_LANGUAGE := en
 
 # exFAT FS Support
 TW_INCLUDE_FUSE_EXFAT := true
@@ -110,10 +110,7 @@ TW_INCLUDE_FUSE_EXFAT := true
 # NTFS Support
 TW_INCLUDE_FUSE_NTFS := true
 
-# Treble [DJ9]
-ifeq ($(FOX_SUPPORT_TREBLE_ONLY),1)
+# Treble
 BOARD_NEEDS_VENDORIMAGE_SYMLINK := false
 TARGET_COPY_OUT_VENDOR := vendor
-endif
-# DJ9
-
+#
