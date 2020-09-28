@@ -7,7 +7,8 @@
 /boot           emmc      /dev/block/bootdevice/by-name/boot                 flags=display="Boot"
 /system_image   emmc      /dev/block/bootdevice/by-name/system               flags=backup=1;flashimg=1
 /vendor_image   emmc      /dev/block/bootdevice/by-name/cust                 flags=backup=1;flashimg=1
-/system         ext4      /dev/block/bootdevice/by-name/system               flags=display="System";backup=1;wipeingui
+/system_root   ext4   	  /dev/block/bootdevice/by-name/system               flags=display="System";backup=0;wipeingui
+
 /data           ext4      /dev/block/bootdevice/by-name/userdata             flags=length=-16384;encryptable=footer;fileencryption=ice:aes-256-heh
 /storage        ext4      /data/media/0                  		     flags=display="Internal Storage";usermrf;backup=1;fsflags="bind";removable
 /vendor         ext4      /dev/block/bootdevice/by-name/cust                 flags=display="Vendor/Cust";backup=1;wipeingui

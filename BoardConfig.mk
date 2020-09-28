@@ -48,7 +48,7 @@ TW_INCLUDE_CRYPTO := true
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 androidboot.bootdevice=7824900.sdhci earlycon=msm_hsl_uart,0x78af000 androidboot.selinux=permissive
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
-BOARD_KERNEL_PAGESIZE :=  2048
+BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
 
 ifeq ($(FOX_BUILD_FULL_KERNEL_SOURCES),1)
@@ -57,8 +57,8 @@ TARGET_KERNEL_CONFIG := mido-fox_defconfig
 TARGET_KERNEL_SOURCE := kernel/xiaomi/mido
 else
 TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilt/Image.gz-dtb
-PRODUCT_COPY_FILES += \
-    $(TARGET_PREBUILT_KERNEL):kernel
+#PRODUCT_COPY_FILES += \
+#    $(TARGET_PREBUILT_KERNEL):kernel
 endif
 
 # Partitions
@@ -105,4 +105,14 @@ TW_INCLUDE_FUSE_EXFAT := true
 
 # NTFS Support
 TW_INCLUDE_FUSE_NTFS := true
+#
+#
+VENDOR_SECURITY_PATCH := 2099-12-31
+PLATFORM_SECURITY_PATCH := 2099-12-31
+
+BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
+#TW_FORCE_USE_BUSYBOX := true
+
+#TW_FORCE_USE_BUSYBOX := true
+#TW_USE_TOOLBOX := false
 #
