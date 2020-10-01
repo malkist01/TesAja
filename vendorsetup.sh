@@ -28,9 +28,6 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
    	export FOX_ASH_IS_BASH=1
    	export FOX_USE_NANO_EDITOR=1
 	export FOX_USE_TAR_BINARY=1
-	export FOX_USE_ZIP_BINARY=1
-   	export FOX_REPLACE_BUSYBOX_PS=1
-   	export FOX_RESET_SETTINGS=disabled
 
    	export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
    	export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES="1"
@@ -47,17 +44,14 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
         export FOX_R11=1
         export OF_DISABLE_MIUI_OTA_BY_DEFAULT=1
         export OF_QUICK_BACKUP_LIST="/boot;/data;/system_image;/vendor_image;"
-        #export FOX_ADVANCED_SECURITY=1
-        #export OF_USE_TWRP_SAR_DETECT=1
         # -- end R11 settings --
 
 	# while still testing fox_10 stuff
-	export OF_NO_SPLASH_CHANGE=1
-	export OF_DISABLE_EXTRA_ABOUT_PAGE=1
+        #export FOX_ADVANCED_SECURITY=1
+   	export FOX_RESET_SETTINGS=disabled
 	export FOX_REMOVE_ZIP_BINARY=1
 	export FOX_SKIP_ZIP_BINARY=1
-	export OF_SKIP_ORANGEFOX_PROCESS=1
-
+ 	export OF_SKIP_ORANGEFOX_PROCESS=1; # ! We don't want to be flashing MIUI with fox_10 on mido
 
 	# let's log what are the build VARs that we used
 	if [ -n "$FOX_BUILD_LOG_FILE" -a -f "$FOX_BUILD_LOG_FILE" ]; then
