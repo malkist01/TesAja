@@ -18,6 +18,21 @@
 # 	Please maintain this if you use this script or any part of it
 #
 FDEVICE="mido"
+# set -o xtrace
+fox_get_target_device() {
+local F="$BASH_ARGV"
+   [ -z "$F" ] && F="$BASH_SOURCE"
+   if [ -n "$F" ]; then
+      local D1=$(dirname "$F")
+      local D2=$(basename "$D1")
+      [ -n "$D2" ] && echo "$D2"
+   fi
+}
+
+if [ -z "$1" -a -z "$FOX_BUILD_DEVICE" ]; then
+   FOX_BUILD_DEVICE=$(fox_get_target_device)
+fi
+
 if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
         export PLATFORM_VERSION="16.1.0"
    	export PLATFORM_SECURITY_PATCH="2099-12-31"
@@ -48,10 +63,6 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 
 	# while still testing fox_10 stuff
         #export FOX_ADVANCED_SECURITY=1
-   	export FOX_RESET_SETTINGS=disabled
-	export FOX_REMOVE_ZIP_BINARY=1
-	export FOX_SKIP_ZIP_BINARY=1
- 	export OF_SKIP_ORANGEFOX_PROCESS=1; # ! We don't want to be flashing MIUI with fox_10 on mido
 
 	# let's log what are the build VARs that we used
 	if [ -n "$FOX_BUILD_LOG_FILE" -a -f "$FOX_BUILD_LOG_FILE" ]; then
