@@ -39,10 +39,13 @@ TARGET_BOARD_SUFFIX := _64
 TARGET_BOOTLOADER_BOARD_NAME := MSM8953
 TARGET_NO_BOOTLOADER := true
 
-# Crypto
-TARGET_HW_DISK_ENCRYPTION := true
-TARGET_CRYPTFS_HW_PATH := vendor/qcom/opensource/commonsys/cryptfs_hw
-TW_INCLUDE_CRYPTO := true
+# Crypto; decryption is broken when building with the android 10 manifest, so disable it here
+#TARGET_HW_DISK_ENCRYPTION := true
+#TARGET_CRYPTFS_HW_PATH := vendor/qcom/opensource/commonsys/cryptfs_hw
+#TW_INCLUDE_CRYPTO := true
+#TW_INCLUDE_FBE := true
+#TW_INCLUDE_CRYPTO_FBE := true
+#TW_INCLUDE_FBE_METADATA_DECRYPT := true
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
