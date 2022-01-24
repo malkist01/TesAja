@@ -1,7 +1,7 @@
 #
 #	This file is part of the OrangeFox Recovery Project
-# 	Copyright (C) 2018-2020 The OrangeFox Recovery Project
-#	
+# 	Copyright (C) 2018-2022 The OrangeFox Recovery Project
+#
 #	OrangeFox is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
 #	the Free Software Foundation, either version 3 of the License, or
@@ -14,29 +14,53 @@
 #
 # 	This software is released under GPL version 3 or any later version.
 #	See <http://www.gnu.org/licenses/>.
-# 	
+#
 # 	Please maintain this if you use this script or any part of it
 #
 FDEVICE="mido"
+# set -o xtrace
+
+fox_get_target_device() {
+local F="$BASH_ARGV"
+   [ -z "$F" ] && F="$BASH_SOURCE"
+   if [ -n "$F" ]; then
+      local D1=$(dirname "$F")
+      local D2=$(basename "$D1")
+      [ -n "$D2" ] && echo "$D2"
+   fi
+}
+
+if [ -z "$1" -a -z "$FOX_BUILD_DEVICE" ]; then
+   FOX_BUILD_DEVICE=$(fox_get_target_device)
+fi
+
 if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
         export PLATFORM_VERSION="16.1.0"
    	export PLATFORM_SECURITY_PATCH="2099-12-31"
    	export TW_DEFAULT_LANGUAGE="en"
-   	export OF_DONT_PATCH_ENCRYPTED_DEVICE=1
+   	export OF_DONT_PATCH_ENCRYPTED_DEVICE="1"
+   	export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
+   	export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES="1"
+   	export OF_USE_MAGISKBOOT="1"
+   	export OF_NO_MIUI_OTA_VENDOR_BACKUP="1"
+   	export OF_NO_TREBLE_COMPATIBILITY_CHECK="1"
+	export OF_USE_SYSTEM_FINGERPRINT="1"
+	export OF_ALLOW_DISABLE_NAVBAR=1
    	export FOX_USE_BASH_SHELL=1
    	export FOX_ASH_IS_BASH=1
    	export FOX_USE_NANO_EDITOR=1
 	export FOX_USE_TAR_BINARY=1
-	export FOX_USE_ZIP_BINARY=1
+	export FOX_USE_SED_BINARY=1
+	export FOX_USE_XZ_UTILS=1
    	export FOX_REPLACE_BUSYBOX_PS=1
+	export FOX_ENABLE_APP_MANAGER=1
+
+	# use magisk 23.0 for the magisk addon
+	export FOX_USE_SPECIFIC_MAGISK_ZIP=~/Magisk/Magisk-23.0.zip
+
    	# export OF_DISABLE_DM_VERITY_FORCED_ENCRYPTION="1"; # disabling dm-verity causes stability issues with some kernel 4.9 ROMs; but is needed for MIUI
-	# export OF_DISABLE_FORCED_ENCRYPTION=1
-   	export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
-   	export OF_USE_MAGISKBOOT_FOR_ALL_PATCHES="1"
-   	export OF_USE_MAGISKBOOT="1"
+   	export OF_FORCE_DISABLE_DM_VERITY_MIUI="1"
 	export OF_FORCE_MAGISKBOOT_BOOT_PATCH_MIUI="1"
-   	export OF_NO_MIUI_OTA_VENDOR_BACKUP="1"
-   	export OF_NO_TREBLE_COMPATIBILITY_CHECK="1"
 
 	# OTA for custom ROMs
         export OF_SUPPORT_ALL_BLOCK_OTA_UPDATES=1
@@ -44,11 +68,14 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 
         # -- add settings for R11 --
         export FOX_R11=1
-        export FOX_ADVANCED_SECURITY=1
-        export OF_USE_TWRP_SAR_DETECT=1
         export OF_DISABLE_MIUI_OTA_BY_DEFAULT=1
         export OF_QUICK_BACKUP_LIST="/boot;/data;/system_image;/vendor_image;"
+        export OF_USE_TWRP_SAR_DETECT=1
+        #export FOX_ADVANCED_SECURITY=1
         # -- end R11 settings --
+
+	# run a process after formatting data to work-around MTP issues
+	export OF_FORCE_CREATE_DATA_MEDIA_ON_FORMAT=1
 
 	# let's log what are the build VARs that we used
 	if [ -n "$FOX_BUILD_LOG_FILE" -a -f "$FOX_BUILD_LOG_FILE" ]; then
@@ -59,7 +86,8 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
   	   export | grep "PLATFORM_" >> $FOX_BUILD_LOG_FILE
   	fi
 
-	add_lunch_combo omni_"$FDEVICE"-eng
-	add_lunch_combo omni_"$FDEVICE"-userdebug
+  	for var in eng user userdebug; do
+  		add_lunch_combo omni_"$FDEVICE"-$var
+  	done
 fi
 #
