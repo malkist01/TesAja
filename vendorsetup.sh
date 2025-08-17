@@ -74,6 +74,11 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ]; then
 	export FOX_BASH_TO_SYSTEM_BIN=1
 	export FOX_USE_SPECIFIC_MAGISK_ZIP=~/Magisk/Magisk-v28.1.zip
 
+    # Add Settings For R11
+    export OF_MAINTAINER=Teletubies 🕊️
+	export FOX_BUILD_TYPE=Stable
+    export FOX_VERSION="R11.3_1"
+ 
 	# dynamic partitions ?
 	export FOX_USE_DYNAMIC_PARTITIONS=1; # always make dynamic builds [unified]
 
