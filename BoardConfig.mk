@@ -9,9 +9,6 @@
 # enable ext4
 TARGET_USERIMAGES_USE_EXT4 := true
 
-# Inherit from common mithorium-common
-include device/xiaomi/mithorium-common/BoardConfigCommon.mk
-
 DEVICE_PATH := device/xiaomi/mido
 
 # platform
